@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block title %}Student Dashboard | CampusConnect{% endblock %}
+{% block content %}
+<section class="dashboard-head"><div><span class="eyebrow">YOUR CAMPUS SPACE</span><h1>Hey, {{ logged_user.name.split(' ')[0] }} 👋</h1><p class="muted">Your registrations and updates, all in one place.</p></div><a class="button" href="{{ url_for('index') }}">Discover events →</a></section>
+<div class="stats-grid"><div class="stat-card"><span>REGISTERED EVENTS</span><strong>{{ registrations|length }}</strong><small>Your upcoming experiences</small></div><div class="stat-card"><span>NEW UPDATES</span><strong>{{ unread_notifications }}</strong><small>Notifications waiting</small></div></div>
+<section class="section"><div class="section-heading"><div><span class="eyebrow">YOUR SCHEDULE</span><h2>My registered events</h2></div></div>
+<div class="simple-list">{% for e in registrations %}<a class="list-row" href="{{ url_for('event_detail',event_id=e.id) }}"><div class="date-tile"><strong>{{ e.event_date.strftime('%d') }}</strong><span>{{ e.event_date.strftime('%b') }}</span></div><div class="list-main"><strong>{{ e.title }}</strong><span>{{ e.club_name }} · {{ e.venue }}</span></div><span class="muted">{{ e.event_date.strftime('%I:%M %p') }}</span><span>→</span></a>{% else %}<div class="empty-state"><h3>No registrations yet</h3><p>Explore upcoming events and register for something you love.</p><a href="{{ url_for('index') }}">Browse events →</a></div>{% endfor %}</div></section>
+<section class="section"><div class="section-heading"><h2>Recent notifications</h2><a href="{{ url_for('notifications') }}">View all →</a></div>{% for n in notifications %}<div class="notification-row"><span class="notification-dot"></span><div><p>{{ n.message }}</p><small class="muted">{{ n.created_at }}</small></div></div>{% else %}<p class="muted">No notifications yet.</p>{% endfor %}</section>
+{% endblock %}

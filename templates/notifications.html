@@ -1,0 +1,5 @@
+{% extends "base.html" %}
+{% block title %}Notifications | CampusConnect{% endblock %}
+{% block content %}
+<section class="section"><span class="eyebrow">STAY IN THE LOOP</span><h1>Notifications</h1><div class="simple-list">{% for n in items %}<a class="list-row" href="{{ n.link or url_for('dashboard') }}"><span class="notification-dot"></span><div class="list-main"><strong>{{ n.message }}</strong><span>{{ n.created_at }}</span></div><span class="status">{{ 'Read' if n.is_read else 'New' }}</span></a>{% else %}<div class="empty-state"><h3>You're all caught up</h3><p>New updates will appear here.</p></div>{% endfor %}</div></section>
+{% endblock %}

@@ -1,0 +1,16 @@
+{% extends "base.html" %}
+{% block title %}Create account | CampusConnect{% endblock %}
+{% block content %}
+<div class="auth-layout"><div class="auth-aside"><span class="eyebrow">JOIN THE CAMPUS COMMUNITY</span><h1>Your next campus story starts here.</h1><p>Create an account to explore events, meet people and be part of something exciting.</p></div>
+<form class="form-card" method="post">
+  <span class="eyebrow">GET STARTED</span><h2>Create your account</h2><p class="muted">Choose how you will use CampusConnect.</p>
+  <label>Full name<input name="name" required maxlength="100" placeholder="Your full name"></label>
+  <label>Email address<input type="email" name="email" required placeholder="you@college.edu"></label>
+  <label>Password<input type="password" name="password" minlength="8" required placeholder="At least 8 characters"></label>
+  <label>Account type<select name="role" id="roleSelect"><option value="student">Student</option><option value="organizer">Club organizer</option></select></label>
+  <label id="clubField" class="hidden">Club name<input name="club_name" placeholder="e.g. Coding Club"></label>
+  <button class="button full" type="submit">Create account →</button>
+  <p class="form-foot">Already registered? <a href="{{ url_for('login') }}">Log in</a></p>
+</form></div>
+{% endblock %}
+{% block scripts %}<script>const roleSelect=document.getElementById('roleSelect');const clubField=document.getElementById('clubField');function syncRole(){clubField.classList.toggle('hidden',roleSelect.value!=='organizer')}roleSelect.addEventListener('change',syncRole);syncRole();</script>{% endblock %}

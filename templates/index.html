@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+{% block title %}Explore Events | CampusConnect{% endblock %}
+{% block content %}
+<section class="hero">
+  <div class="hero-copy">
+    <span class="eyebrow">YOUR CAMPUS. YOUR COMMUNITY.</span>
+    <h1>Make every campus moment <em>count.</em></h1>
+    <p>Discover workshops, cultural fests, hackathons and club activities happening around your college.</p>
+    <a class="button button-light" href="#events">Explore events <span>→</span></a>
+  </div>
+  <div class="hero-art"><div class="art-orbit"></div><div class="art-card"><span>✦ CAMPUS LIFE</span><strong>Find your<br>next big thing.</strong><small>Connect • Learn • Create</small></div><div class="art-dot dot-one"></div><div class="art-dot dot-two"></div></div>
+</section>
+<section class="section" id="events">
+  <div class="section-heading"><div><span class="eyebrow">WHAT'S HAPPENING</span><h2>Upcoming events</h2></div><span class="muted">{{ events|length }} event(s) found</span></div>
+  <form class="filter-bar" method="get">
+    <input name="q" placeholder="Search events or clubs..." value="{{ filters.q }}">
+    <select name="category"><option value="">All categories</option>{% for c in categories %}<option value="{{ c.category }}" {% if filters.category==c.category %}selected{% endif %}>{{ c.category }}</option>{% endfor %}</select>
+    <select name="club"><option value="">All clubs</option>{% for c in clubs %}<option value="{{ c.id }}" {% if filters.club|string==c.id|string %}selected{% endif %}>{{ c.name }}</option>{% endfor %}</select>
+    <input type="date" name="date" value="{{ filters.date }}">
+    <button class="button" type="submit">Filter</button>
+    <a class="clear-link" href="{{ url_for('index') }}">Clear</a>
+  </form>
+  <div class="event-grid">
+    {% for event in events %}
+      <article class="event-card">
+        <a class="poster" href="{{ url_for('event_detail', event_id=event.id) }}">
+          {% if event.poster_filename %}<img src="{{ url_for('static', filename='uploads/' + event.poster_filename) }}" alt="{{ event.title }} poster">{% else %}<div class="poster-placeholder"><span>✦</span><small>{{ event.category }}</small></div>{% endif %}
+          <span class="category-tag">{{ event.category }}</span>
+        </a>
+        <div class="event-card-body">
+          <div class="event-date">{{ event.event_date.strftime('%d %b %Y · %I:%M %p') }}</div>
+          <h3><a href="{{ url_for('event_detail', event_id=event.id) }}">{{ event.title }}</a></h3>
+          <p class="muted">{{ event.club_name }} · {{ event.venue }}</p>
+          <div class="card-bottom"><span>♧ {{ event.registrations_count }} registered</span><a href="{{ url_for('event_detail', event_id=event.id) }}">View details →</a></div>
+        </div>
+      </article>
+    {% else %}
+      <div class="empty-state"><div>✦</div><h3>No events found</h3><p>Try changing your filters or check back soon for new campus activities.</p></div>
+    {% endfor %}
+  </div>
+</section>
+{% endblock %}

@@ -1,0 +1,7 @@
+{% extends "base.html" %}
+{% block title %}Admin Dashboard | CampusConnect{% endblock %}
+{% block content %}
+<section class="dashboard-head"><div><span class="eyebrow">ADMINISTRATION</span><h1>Platform overview</h1><p class="muted">Manage accounts and monitor the campus platform.</p></div></section>
+<div class="stats-grid"><div class="stat-card"><span>USERS</span><strong>{{ stats.users }}</strong></div><div class="stat-card"><span>EVENTS</span><strong>{{ stats.events }}</strong></div><div class="stat-card"><span>CLUBS</span><strong>{{ stats.clubs }}</strong></div></div>
+<section class="section"><h2>Manage users</h2><div class="table-wrap"><table><thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Change role</th></tr></thead><tbody>{% for u in users %}<tr><td>{{ u.name }}</td><td>{{ u.email }}</td><td>{{ u.role }}</td><td><form class="inline-form" method="post" action="{{ url_for('change_role',user_id=u.id) }}"><select name="role"><option>student</option><option>organizer</option><option>admin</option></select><button class="button small-button">Save</button></form></td></tr>{% endfor %}</tbody></table></div></section>
+{% endblock %}
